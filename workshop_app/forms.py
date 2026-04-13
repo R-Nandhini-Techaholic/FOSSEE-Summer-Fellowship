@@ -115,8 +115,8 @@ class UserLoginForm(forms.Form):
     def clean(self):
         super(UserLoginForm, self).clean()
         try:
-            u_name, pwd = self.cleaned_data["username"], \
-                          self.cleaned_data["password"]
+            u_name = self.cleaned_data["username"].lower()
+            pwd = self.cleaned_data["password"]
             user = authenticate(username=u_name, password=pwd)
         except Exception:
             raise forms.ValidationError("Username and/or Password is not entered")

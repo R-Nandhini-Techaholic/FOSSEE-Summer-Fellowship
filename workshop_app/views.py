@@ -151,7 +151,7 @@ def user_register(request):
             return render(request, 'workshop_app/activation.html')
         else:
             if request.user.is_authenticated:
-                return redirect('workshop:view_profile')
+                return redirect('workshop_app:view_own_profile')
             return render(
                 request, "workshop_app/register.html",
                 {"form": form}

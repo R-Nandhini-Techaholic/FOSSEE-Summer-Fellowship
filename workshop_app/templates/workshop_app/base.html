@@ -2,11 +2,12 @@
 <html>
 {% load static %}
 {% load custom_filters %}
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
         {% block title %}
-            HomePage
+        HomePage
         {% endblock %}
     </title>
 
@@ -24,9 +25,17 @@
     <link rel="stylesheet" href="{% static 'workshop_app/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'workshop_app/css/toastr.min.css' %}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'workshop_app/css/base.css' %}" type="text/css"/>
-    <link rel="stylesheet" href="{% static 'workshop_app/css/font-awesome.css' %}" type="text/css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <link rel="stylesheet" href="{% static 'workshop_app/css/base.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'workshop_app/css/font-awesome.css' %}" type="text/css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+
+    <!-- React Integration -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'workshop_app/css/modern-ui.css' %}">
 
     {% block extra-custom-scripts %}
     {% endblock %}
@@ -34,102 +43,61 @@
 </head>
 
 <body>
-{% block header %}
-    <nav class="navbar navbar-dark navbar-expand-lg bg-dark fixed-top">
-        {% if user.is_authenticated %}
-        <a class="navbar-brand text-white" href="{% url 'workshop_app:index' %}">FOSSEE Workshops</a>
-        {% else %}
-        <a class="navbar-brand text-white" href="{{request.scheme}}://{{request.get_host}}">FOSSEE Workshops</a>
-        {% endif %}
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/">
-                        Home
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'statistics_app:public' %}">
-                        Workshop Statistics
-                    </a>
-                </li>
-            </ul>
-            {% if user.is_authenticated %}
-            <ul class="navbar-nav mr-auto">
-                {% if request.user|has_group:"instructor" %}
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'statistics_app:team' %}">
-                        Team Statistics
-                    </a>
-                </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'workshop_app:workshop_status_instructor' %}">
-                        Workshop Status
-                    </a>
-                </li>
-                {% if not request.user|has_group:"instructor" %}
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="{% url 'workshop_app:propose_workshop' %}">
-                            Propose Workshop
-                        </a>
-                    </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'workshop_app:workshop_type_list' %}">
-                        Workshop Types
-                    </a>
-                </li>
-            </ul>
-            <div class="my-2 my-lg-0">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                           <span class="material-icons" style="vertical-align: middle">account_circle</span>
-                            <p style="display: inline; vertical-align: middle">
-                                {{user.get_full_name|title}}
-                            </p>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{% url 'workshop_app:view_own_profile' %}">Profile</a>
-                            <a class="dropdown-item" href="{% url 'password_change' %}">
-                                 Change Password
-                            </a>
-                            <a class="dropdown-item" href="{% url 'workshop_app:logout' %}">Logout</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            {% endif %}
-        </div>
-    </nav>
-{% endblock %}
-
-<div class="base-content">
-    {% block content %}
-        <h1>Base Template Content. Please override me</h1>
+    {% block header %}
+    <div id="react-navbar-root"></div>
+    <!-- Django Context injection for React Components -->
+    <script>
+        window.DJANGO_CONTEXT = {
+            staticUrl: "{% static 'workshop_app/' %}",
+            // prettier-ignore
+            isAuthenticated: {% if user.is_authenticated %}true{% else %} false{% endif %},
+        isInstructor: false {% for group in request.user.groups.all %} {% if group.name == 'instructor' %}|| true{% endif %} {% endfor %},
+        userFullName: "{{ request.user.get_full_name|title|escapejs }}",
+            urls: {
+            home: "{% if user.is_authenticated %}{% url 'workshop_app:index' %}{% else %}{{request.scheme}}://{{request.get_host}}{% endif %}",
+                statsPublic: "{% url 'statistics_app:public' %}",
+                    statsTeam: "{% url 'statistics_app:team' %}",
+                        statusInstructor: "{% url 'workshop_app:workshop_status_instructor' %}",
+                            propose: "{% url 'workshop_app:propose_workshop' %}",
+                                workshopTypes: "{% url 'workshop_app:workshop_type_list' %}",
+                                    profile: "{% url 'workshop_app:view_own_profile' %}",
+                                        changePassword: "{% url 'password_change' %}",
+                                            logout: "{% url 'workshop_app:logout' %}",
+                                                login: "{% url 'workshop_app:login' %}",
+                                                    register: "{% url 'workshop_app:register' %}",
+                                                        passwordReset: "{% url 'password_reset' %}"
+        }
+        };
+    </script>
+    <script type="text/babel" src="{% static 'workshop_app/react/components.js' %}"></script>
+    <script type="text/babel" src="{% static 'workshop_app/react/Navbar.js' %}"></script>
+    <script type="text/babel">
+        const navRoot = ReactDOM.createRoot(document.getElementById('react-navbar-root'));
+        navRoot.render(<window.ReactComponents.Navbar />);
+    </script>
     {% endblock %}
-</div>
 
-<script>
-    {% if messages %}
+    <div class="base-content">
+        {% block content %}
+        <h1>Base Template Content. Please override me</h1>
+        {% endblock %}
+    </div>
+
+    <script>
+        {% if messages %}
         {% for message in messages %}
-            toastr[{% if message.tags %} "{{ message.tags }}" {% else %} "info" {% endif %}]("{{ message }}");
+        toastr[{% if message.tags %} "{{ message.tags }}" {% else %} "info" {% endif %}]("{{ message }}");
         {% endfor %}
-    {% endif %}
-</script>
+        {% endif %}
+    </script>
 
 </body>
 <footer class="footer">
     {% block footer %}
-       <div class="container">
-           Developed by FOSSEE group, IIT Bombay
-       </div> 
+    <div class="container">
+        Powered by FOSSEE, IIT Bombay
+    </div>
     {% endblock %}
 </footer>
+
 </html>
