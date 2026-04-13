@@ -34,7 +34,18 @@ If you want to run this locally, the steps are pretty standard:
 4. Open your browser and go to `http://127.0.0.1:8000`.
 
 ## Screenshots
-*(Before and after screenshots going here to show the progression from the old table layouts to the new modern design.)*
+Before
+
+<img width="1671" height="728" alt="login" src="https://github.com/user-attachments/assets/71a34ad3-325c-4d79-801d-9a003693a97b" />
+<img width="1523" height="740" alt="register" src="https://github.com/user-attachments/assets/607d6db6-9a94-4d0c-9f32-9cf269415e18" />
+<img width="928" height="517" alt="password reset" src="https://github.com/user-attachments/assets/a59bcc13-b2e4-4af0-9c43-9dd2b8ca94b4" />
+
+After
+
+<img width="1881" height="903" alt="login new" src="https://github.com/user-attachments/assets/15cdbcbc-4c9a-47bb-96c5-ca2b0961ec43" />
+<img width="1876" height="915" alt="register new" src="https://github.com/user-attachments/assets/3056c3aa-edcf-4cea-ac39-83516bb8846e" />
+<img width="1902" height="903" alt="pwd reset new" src="https://github.com/user-attachments/assets/76968c4d-5a57-4833-8cb5-93db8adb2e03" />
+<img width="1862" height="890" alt="stats new" src="https://github.com/user-attachments/assets/4307d644-954f-4241-87b2-e4619287f24f" />
 
 ---
 
