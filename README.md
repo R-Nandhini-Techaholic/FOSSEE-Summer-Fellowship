@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Workshop Booking UI/UX Redesign
 
 ## Overview
@@ -39,3 +40,6 @@ If you want to run this locally, the steps are pretty standard:
 ---
 
 I focused more on improving user flow and reducing friction rather than just changing the visual design. This project helped me understand how small UX changes can significantly improve usability.
+=======
+# FOSSEE-Summer-Fellowship
+>>>>>>> 8886ed3d32d75c8d9a8ec9c0e5a6a164b6ab7900
