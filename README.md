@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# Workshop Booking UI/UX Redesign
+# FOSSEE-Summer-Fellowship
 
 ## Overview
 I worked on improving the user interface and overall experience of our existing workshop booking web app. The old design was a bit clunky, especially on phones, so I aimed to make it feel cleaner and easier to use. I kept the existing Django backend exactly as it was and added some React components via CDN to handle the frontend interactivity without needing a complicated build process.
@@ -35,13 +34,13 @@ If you want to run this locally, the steps are pretty standard:
 4. Open your browser and go to `http://127.0.0.1:8000`.
 
 ## Screenshots
-Before
+**Before**
 
 <img width="1671" height="728" alt="login" src="https://github.com/user-attachments/assets/71a34ad3-325c-4d79-801d-9a003693a97b" />
 <img width="1523" height="740" alt="register" src="https://github.com/user-attachments/assets/607d6db6-9a94-4d0c-9f32-9cf269415e18" />
 <img width="928" height="517" alt="password reset" src="https://github.com/user-attachments/assets/a59bcc13-b2e4-4af0-9c43-9dd2b8ca94b4" />
 
-After
+**After**
 
 <img width="1881" height="903" alt="login new" src="https://github.com/user-attachments/assets/15cdbcbc-4c9a-47bb-96c5-ca2b0961ec43" />
 <img width="1876" height="915" alt="register new" src="https://github.com/user-attachments/assets/3056c3aa-edcf-4cea-ac39-83516bb8846e" />
@@ -52,5 +51,3 @@ After
 
 I focused more on improving user flow and reducing friction rather than just changing the visual design. This project helped me understand how small UX changes can significantly improve usability.
 =======
-# FOSSEE-Summer-Fellowship
->>>>>>> 8886ed3d32d75c8d9a8ec9c0e5a6a164b6ab7900
